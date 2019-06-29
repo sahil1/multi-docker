@@ -12,7 +12,7 @@ after_success:
   - docker build -t sahil1/multi-client ./client
   - docker build -t sahil1/multi-nginx ./nginx
   - docker build -t sahil1/multi-server ./server
-  - docker built -t sahil1/multi-worker ./worker
+  - docker build -t sahil1/multi-worker ./worker
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   - docker push sahil1/multi-nginx
   - docker push sahil1/multi-server
