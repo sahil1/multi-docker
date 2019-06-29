@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t sahil1/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run sahil1/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t sahil1/multi-client ./client
+  - docker build -t sahil1/multi-nginx ./nginx
+  - docker build -t sahil1/multi-server ./server
+  - docker built -t sahil1/multi-worker ./worker
+  #Login to docker cli
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  #Take images and push to docker hub
+  - docker push sahil1/multi-client
+  - docker push sahil1/multi-nginx
+  - docker push sahil1/multi-server
+  - docker push sahil1/multi-worker
